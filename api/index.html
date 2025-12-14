@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Williverse Persona Chat</title>
+</head>
+<body>
+  <h1>Williverse Persona Chat</h1>
+
+  <select id="persona">
+    <option value="vakros">Vakros Vampire</option>
+    <option value="oracle">Haunted Oracle</option>
+    <option value="relationship">Dark Relationship Advice</option>
+    <option value="nanny">Nanny Wilkins Witch</option>
+    <option value="fortune">Fortune Teller</option>
+  </select>
+
+  <br><br>
+
+  <input id="msg" placeholder="Say something…" />
+  <button onclick="send()">Send</button>
+
+  <pre id="out"></pre>
+
+  <script>
+    async function send() {
+      const r = await fetch("/api/chat", {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({
+          message: msg.value,
+          persona: persona.value
+        })
+      });
+      const d = await r.json();
+      out.textContent += "\n\n" + d.reply;
+    }
+  </script>
+</body>
+</html>
